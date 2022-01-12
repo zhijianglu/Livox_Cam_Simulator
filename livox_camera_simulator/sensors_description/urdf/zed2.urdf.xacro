@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="zed2_camera">
+
+    <!-- Properties -->
+    <xacro:property name="baseline" value="0.12"/>
+    <xacro:property name="hfov" value="92.329636758468765228252815135916"/>
+    <xacro:property name="M_PI" value="3.1415926535897931"/>
+
+    <!-- Includes -->
+    <xacro:include filename="$(find sensors_description)/materials/zed_materials.urdf.xacro"/>
+    <xacro:include filename="$(find sensors_description)/urdf/camera.gazebo.xacro"/>
+
+
+    <!-- Macro -->
+    <xacro:macro name="zed2_camera"
+                 params="*origin parent:=base_frame camera_name:=zed2 image_width:=2208 image_height:=1242 hz:=15 image_format:=B8G8R8 noise:=0.0">
+
+        <!-- Camera body -->
+        <joint name="${camera_name}_base_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${camera_name}_body"/>
+            <xacro:insert_block name="origin"/>
+        </joint>
+
+        <link name="${camera_name}_body">
+            <inertial>
+                <origin
+                        xyz="0 0 0"
+                        rpy="0 0 0"/>
+                <mass
+                        value="1.2318"/>
+                <inertia
+                        ixx="0.0029695"
+                        ixy="1.6071E-08"
+                        ixz="7.94620000000098E-12"
+                        iyy="0.0029965"
+                        iyz="2.55599998283537E-11"
+                        izz="0.00019321"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://sensors_description/meshes/zed2.STL"/>
+                </geometry>
+                <material name="zed2_mat"/>
+                <!-- <material name="black" /> -->
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://sensors_description/meshes/zed2.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <gazebo reference="${camera_name}_body">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <!-- Left Camera -->
+        <joint name="${camera_name}_left_camera_joint" type="fixed">
+            <parent link="${camera_name}_body"/>
+            <child link="${camera_name}_left_frame"/>
+            <origin xyz="0 ${baseline/2} 0" rpy="0.0 0.0 0.0" />
+        </joint>
+
+        <link name="${camera_name}_left_frame"/>
+
+        <joint name="${camera_name}_left_optical_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="${-M_PI/2} 0.0 ${-M_PI/2}"/>
+            <parent link="${camera_name}_left_frame"/>
+            <child link="${camera_name}_left_optical_frame"/>
+        </joint>
+
+        <link name="${camera_name}_left_optical_frame"/>
+
+        <xacro:rgb_gazebo reference="${camera_name}_left_frame" name="left_camera" image_width="${image_width}"
+                          image_height="${image_height}" hz="${hz}" image_format="${image_format}"
+                          frame_id="${camera_name}_left_optical_frame" hfov="${hfov}"
+                          focal_length="0" noise="${noise}">
+        </xacro:rgb_gazebo>
+
+        <!-- Right Camera -->
+        <joint name="${camera_name}_right_camera_joint" type="fixed">
+            <parent link="${camera_name}_body"/>
+            <child link="${camera_name}_right_frame"/>
+            <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+        </joint>
+
+        <link name="${camera_name}_right_frame"/>
+
+        <joint name="${camera_name}_right_optical_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="${-M_PI/2} 0.0 ${-M_PI/2}"/>
+            <parent link="${camera_name}_right_frame"/>
+            <child link="${camera_name}_right_optical_frame"/>
+        </joint>
+
+        <link name="${camera_name}_right_optical_frame"/>
+
+        <xacro:rgb_gazebo reference="${camera_name}_right_frame" name="right_camera" image_width="${image_width}"
+                          image_height="${image_height}" hz="${hz}" image_format="${image_format}"
+                          frame_id="${camera_name}_right_optical_frame" hfov="${hfov}"
+                          focal_length="0" noise="${noise}">
+        </xacro:rgb_gazebo>
+    </xacro:macro>
+</robot>

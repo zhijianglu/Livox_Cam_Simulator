@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="zed_standlone">
+
+    <!-- zed2 -->
+    <xacro:arg name="zed2_x" default="0.5"/>
+    <xacro:arg name="zed2_y" default="0.0"/>
+    <xacro:arg name="zed2_z" default="1.3"/>
+    <xacro:arg name="zed2_roll" default="0.0"/>
+    <xacro:arg name="zed2_pitch" default="0.0"/>
+    <xacro:arg name="zed2_yaw" default="1.5707963267949"/>
+
+    <xacro:property name="noise" value="0.000" />
+
+    <link name="world"/>
+
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+
+    <link name="base_link"/>
+
+    <!-- zed2 -->
+    <xacro:include filename="$(find sensors_description)/urdf/zed2.urdf.xacro"/>
+    <xacro:zed2_camera parent="base_link" camera_name="zed2" noise="${noise}">
+        <origin xyz="$(arg zed2_x) $(arg zed2_y) $(arg zed2_z)" rpy="$(arg zed2_roll) $(arg zed2_pitch) $(arg zed2_yaw)" />
+    </xacro:zed2_camera>
+
+
+</robot>

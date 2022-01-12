@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="crank_lidar">
+
+    <!-- Defining the colors used in this robot -->
+    <material name="Black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="White">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <material name="Blue">
+        <color rgba="0 0 1 1"/>
+    </material>
+
+    <material name="Red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <!-- Constants -->
+    <xacro:property name="M_PI" value="3.14159"/>
+
+    <!-- link1 properties -->
+    <xacro:property name="link1_width" value="0.003" />
+    <xacro:property name="link1_len" value="0.2" />
+
+    <!-- inertial matrix -->
+    <xacro:macro name="inertial_matrix" params="mass">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="0.5" iyz="0.0" izz="1.0" />
+        </inertial>
+    </xacro:macro>
+
+    <!-- /////////////////////////////////////////////////////////// -->
+  
+    <link name="world"/>
+
+    <!-- base_link -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.04" />
+            </geometry>
+            <material name="Red" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.01" />
+            </geometry>
+        </collision>
+        <xacro:inertial_matrix mass="1"/>
+    </link>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+
+    <joint name="joint1" type="fixed">
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <origin xyz="0.1 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!-- link 1 -->
+    <link name="link1" >
+        <visual>
+            <origin xyz="-${link1_len/2} 0 0" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="${link1_width}" length="${link1_len}"/>
+            </geometry>
+            <material name="Blue" />
+        </visual>
+        <collision>
+            <!-- Attention: the axis -->
+            <origin xyz="-${link1_len/2} 0 0" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="${link1_width}" length="${link1_len/2}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_matrix mass="1"/>
+    </link>
+
+    <xacro:include filename="$(find livox_laser_simulation)/urdf/livox_mid.urdf.xacro"/>
+    <xacro:Livox_Mid40 name="livox"/>
+
+    <joint name="livox_base_joint" type="fixed">
+        <parent link="link1"/>
+        <child link="livox_base"/>
+        <origin rpy="0 0 -0.6"
+                xyz="-0.1 0 ${link1_len/2}"/>
+    </joint>
+
+    <gazebo reference="link1">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+</robot>

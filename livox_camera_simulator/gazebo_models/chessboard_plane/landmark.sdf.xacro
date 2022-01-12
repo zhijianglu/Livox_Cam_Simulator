@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<sdf version="1.5" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <model name="landmark">
+        <!-- Chessboard cell size -->
+        <xacro:property name="size" value="0.1"/>  
+        
+        <!-- Chessboard size, have to be even numbers -->
+        <xacro:property name="r" value="8"/>  
+        <xacro:property name="c" value="5"/> 
+        
+        <static>true</static>
+        
+        <xacro:property name="d" value="0.02"/> 
+        
+        <xacro:macro name="color" params="r g b">
+            <material>
+                <ambient>${r} ${g} ${b} 1</ambient>
+                <specular>${r} ${g} ${b} 1</specular>
+                <diffuse>${r} ${g} ${b} 1</diffuse>
+            </material>
+        </xacro:macro>
+        
+        <!-- home made loop on columns -->
+        <xacro:macro name="loop_c" params="x y">
+                <pose>0 0 0 1.57 0 -1.57</pose>        
+            <visual name="${x}${y}">
+                <pose>${size*(-r/2+0.5+x)} ${size*(-c/2+0.5+y)} ${d/2} 0 0 0</pose>        
+                <geometry>
+                    <box>
+                        <size>${size} ${size} ${d}</size>
+                    </box> 
+                </geometry>
+                
+                <!-- white = odd x+y -->
+                <xacro:if value="${(x+y) in [0,2,4,6,8,10,12,14,16,18,20,22,24,26]}">
+                    <xacro:color r="1" g="1" b="1"/>            
+                </xacro:if>
+                <!-- black = even x+y  -->
+                <xacro:unless value="${(x+y) in [0,2,4,6,8,10,12,14,16,18,20,22,24,26]}">
+                    <xacro:color r="0" g="0" b="0"/>
+                </xacro:unless>        
+                
+            </visual>
+            
+            <xacro:if value="${y}">
+                <xacro:loop_c x="${x}" y="${y-1}"/>
+            </xacro:if>
+        </xacro:macro>
+        
+        <!-- home made loop on rows -->
+        <xacro:macro name="loop_r" params="x">
+            <!-- loop on columns -->
+            <xacro:loop_c x="${x}" y="${c-1}"/>
+            <xacro:if value="${x}">
+                <xacro:loop_r x="${x-1}"/>
+            </xacro:if>
+        </xacro:macro>
+        
+        <link name="base_link">
+          <collision name="collision">
+            <pose>0 0 ${d/2} 0 0 0</pose>
+          <geometry>
+            <box>
+            <size>${size*(r+2)} ${size*(c+2)} ${d}</size>
+            </box>
+          </geometry>
+        </collision>
+
+            <!-- Back of the landmark not to mess with small Z offset -->
+            <!-- Borders -->
+            <visual name="border0">
+                <pose>${size*(r/2+0.5)} 0 ${d/2} 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>${size} ${size*(c+2)} ${d}</size>
+                    </box>       
+                </geometry>
+                <xacro:color r="1" g="1" b="1"/>
+            </visual>
+            <visual name="border1">
+                <pose>${-size*(r/2+0.5)} 0 ${d/2} 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>${size} ${size*(c+2)} ${d}</size>
+                    </box>       
+                </geometry>
+                <xacro:color r="1" g="1" b="1"/>
+            </visual>
+            <visual name="border2">
+                <pose>0 ${size*(c/2+0.5)} ${d/2} 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>${size*(r+2)} ${size} ${d}</size>
+                    </box>  
+                </geometry>
+                <xacro:color r="1" g="1" b="1"/>
+            </visual>
+            <visual name="border3">
+                <pose>0 ${-size*(c/2+0.5)} ${d/2} 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>${size*(r+2)} ${size} ${d}</size>
+                    </box>
+                </geometry>
+                <xacro:color r="1" g="1" b="1"/>
+            </visual>        
+            
+            <!-- cycle through (x,y) to draw white or black squares -->
+            <xacro:loop_r x="${r-1}"/>        
+        </link>
+        </model>
+</sdf>

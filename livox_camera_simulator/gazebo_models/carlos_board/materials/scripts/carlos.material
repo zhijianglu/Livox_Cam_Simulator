@@ -1,0 +1,13 @@
+material Carlos/Maple
+{
+ technique
+ {
+   pass
+   {
+     texture_unit
+     {
+       texture maple.png
+     }
+   }
+ }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+<model name="our_board">
+	<static>true</static>
+	<pose>0 0 0 1.5707963267949 0 0</pose>
+	<link name="link">
+		<inertial>
+			<pose>-3.6662E-16 -0.0029588 -1.09668831736016E-16 0 0 0</pose>
+			<mass>1.5889</mass>
+			<inertia>
+				<ixx>0.1243</ixx>
+				<ixy>2.3621E-18</ixy>
+				<ixz>2.4903E-18</ixz>
+				<iyy>0.2486</iyy>
+				<iyz>-7.61689668900607E-18</iyz>
+				<izz>0.1243</izz>
+			</inertia>
+		</inertial>
+		
+		<collision name="collision">
+			<geometry>
+			  <mesh>
+				<uri>model://our_board/meshes/our_board.STL</uri>
+			  </mesh>
+			</geometry>
+		</collision>
+	
+		<visual name="visual">
+			<geometry>
+			  <mesh>
+				<uri>model://our_board/meshes/our_board.STL</uri>
+			  </mesh>
+			</geometry>
+			<material>
+				<script>
+					<uri>file://media/materials/scripts/gazebo.material</uri>
+					<name>Gazebo/Wood</name>
+				</script>
+			</material>
+		</visual>
+    </link>
+  </model>
+</sdf>

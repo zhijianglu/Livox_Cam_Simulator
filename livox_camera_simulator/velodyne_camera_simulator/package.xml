@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>livox_camera_simulator</name> <!-- This is a meta package! -->
+  <version>1.1.0</version>
+  <description>Velodyne and camera</description>
+
+  <maintainer email="jrivero@osrfoundation.org">Jose Luis Rivero</maintainer>
+
+  <license>BSD,LGPL,Apache 2.0</license>
+
+  <author>Liu Fei</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>velodyne_gazebo_plugins</exec_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>

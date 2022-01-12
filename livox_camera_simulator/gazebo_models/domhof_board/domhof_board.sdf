@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+<model name="domhof_board">
+	<static>true</static>
+	<pose>0 0 0 -1.5707963267949 0 0</pose>
+	<link name="link">
+		<inertial>
+			<pose>-6.8291E-09 -0.048435 -1.48553095626307E-17 0 0 0</pose>
+			<mass>133.58</mass>
+			<inertia>
+				<ixx>12.468</ixx>
+				<ixy>4.0775E-08</ixy>
+				<ixz>4.14710024966662E-17</ixz>
+				<iyy>40.651</iyy>
+				<iyz>-7.67593240127751E-16</iyz>
+				<izz>28.406</izz>
+			</inertia>
+		</inertial>
+		
+		<collision name="collision">
+			<geometry>
+			  <mesh>
+				<uri>model://domhof_board/meshes/domhof_board.STL</uri>
+			  </mesh>
+			</geometry>
+		</collision>
+	
+		<visual name="visual">
+			<geometry>
+			  <mesh>
+				<uri>model://domhof_board/meshes/domhof_board.STL</uri>
+			  </mesh>
+			</geometry>
+			<!-- <material>
+			  	<script>
+					<uri>model://domhof_board/materials/scripts</uri>
+            		<uri>model://domhof_board/materials/textures</uri>
+					<name>Domhof/Maple</name>
+				</script>
+			</material> -->
+			<material>
+				<script>
+					<uri>file://media/materials/scripts/gazebo.material</uri>
+					<name>Gazebo/White</name>
+				</script>
+			</material>
+		</visual>
+    </link>
+  </model>
+</sdf>

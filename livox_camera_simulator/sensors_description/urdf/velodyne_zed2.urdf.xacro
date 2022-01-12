@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="velodyne_zed2">
+    <!-- property -->
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+
+    <!-- velodyne:  vlp16 hdl32 hdl64 -->
+    <xacro:arg name="velodyne" default="vlp16"/> 
+    <xacro:arg name="velodyne_x" default="0.0"/>
+    <xacro:arg name="velodyne_y" default="0.0"/>
+    <xacro:arg name="velodyne_z" default="0.2"/>
+    <xacro:arg name="velodyne_roll" default="0.0"/>
+    <xacro:arg name="velodyne_pitch" default="0.0"/>
+    <xacro:arg name="velodyne_yaw" default="0.0"/>
+
+    <xacro:arg name="K" default="0"/> 
+    <xacro:arg name="rate" default="10"/>
+    <xacro:property name="K" default="$(arg K)"/> 
+    <xacro:property name="noise" value="${K * 0.000}" />
+
+    <!-- zed2 -->
+    <xacro:arg name="zed2_x" default="0.0"/>
+    <xacro:arg name="zed2_y" default="0.0"/>
+    <xacro:arg name="zed2_z" default="0.0"/>
+    <xacro:arg name="zed2_roll" default="0.0"/>
+    <xacro:arg name="zed2_pitch" default="0.0"/>
+    <xacro:arg name="zed2_yaw" default="0.0"/>
+
+    <!-- base -->
+    <link name="world"/>
+
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+
+    <link name="base_link"/>
+
+    <!-- zed2 -->
+    <xacro:include filename="$(find sensors_description)/urdf/zed2.urdf.xacro"/>
+    <xacro:zed2_camera parent="base_link" camera_name="zed2"  noise="0.000">
+        <origin xyz="$(arg zed2_x) $(arg zed2_y) $(arg zed2_z)" rpy="$(arg zed2_roll) $(arg zed2_pitch) $(arg zed2_yaw)" />
+    </xacro:zed2_camera>
+
+    <!-- velodyne -->
+    <xacro:include filename="$(find sensors_description)/urdf/$(arg velodyne).urdf.xacro"/>
+    <xacro:velodyne parent="base_link" name="$(arg velodyne)" topic="velodyne_points" rate="$(arg rate)" noise="${noise}">
+        <origin xyz="$(arg velodyne_x) $(arg velodyne_y) $(arg velodyne_z)" rpy="$(arg velodyne_roll) $(arg velodyne_pitch) $(arg velodyne_yaw)" />
+    </xacro:velodyne>
+
+</robot>

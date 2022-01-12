@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="world_name" default="$(find gazebo_world)/worlds/carlos.world"/>
+    <include file="$(find gazebo_world)/launch/board_world.launch">
+        <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <!-- velodyne:  vlp16 hdl32 hdl64 -->
+    <!-- noise factor 0 1 2 -->
+    <arg name="velodyne" default="vlp16"/>
+    <arg name="K" default="0"/>
+
+    <arg name="velodyne_x" default="-0.5"/>
+    <arg name="velodyne_y" default="0.2"/>
+    <arg name="velodyne_z" default="1.4"/>
+    <arg name="velodyne_roll" default="0"/>
+    <arg name="velodyne_pitch" default="-0.1"/>
+    <arg name="velodyne_yaw" default="0"/>
+
+    <arg name="xb3_x" default="0.0"/>
+    <arg name="xb3_y" default="-0.6"/>
+    <arg name="xb3_z" default="1.7"/>
+    <arg name="xb3_roll" default="0.0"/>
+    <arg name="xb3_pitch" default="0.1"/>
+    <arg name="xb3_yaw" default="0.1"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(find sensors_description)/urdf/velodyne_xb3.urdf.xacro' velodyne:=$(arg velodyne) K:=$(arg K) xb3_x:=$(arg xb3_x) xb3_y:=$(arg xb3_y) xb3_z:=$(arg xb3_z) xb3_roll:=$(arg xb3_roll) xb3_pitch:=$(arg xb3_pitch) xb3_yaw:=$(arg xb3_yaw) velodyne_x:=$(arg velodyne_x) velodyne_y:=$(arg velodyne_y) velodyne_z:=$(arg velodyne_z) velodyne_roll:=$(arg velodyne_roll) velodyne_pitch:=$(arg velodyne_pitch) velodyne_yaw:=$(arg velodyne_yaw)" />
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param /robot_description -model velodyne_xb3"/>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="15.0" />
+    </node>
+
+    <arg name="rviz" default="true"/>
+    <node if="$(arg rviz)" pkg="rviz" type="rviz" name="$(anon rviz)" respawn="false" output="screen" args="-d $(find gazebo_world)/rviz/velodyne_xb3.rviz" />
+
+</launch>

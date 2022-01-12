@@ -1,0 +1,32 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <model name="carlos_board">
+      <pose>0.01 0 0 0 0 1.5707963267949</pose>
+      <static>true</static>
+      <link name="body">
+	  	<inertial><mass>1.0</mass></inertial>
+        <visual name="visual">
+			<pose>0 0 0 0 0 0</pose> 
+			  <geometry>
+				<mesh><uri>model://carlos_board/meshes/carlos_board.dae</uri></mesh>
+			  </geometry>
+			  <material>
+			  	<script>
+					<uri>model://carlos_board/materials/scripts</uri>
+            		<uri>model://carlos_board/materials/textures</uri>
+					<name>Carlos/Maple</name>
+				</script>
+			</material>
+		</visual>
+		  <collision name="collision">
+			<pose>0 0 0  0 0 0</pose>
+			  <geometry>
+				<mesh><uri>model://carlos_board/meshes/wood_pattern.stl</uri></mesh>
+			  </geometry>
+		  </collision>
+      </link>
+    </model>
+</sdf>
+
+
+

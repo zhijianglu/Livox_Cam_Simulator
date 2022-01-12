@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="livox_lidar">
+
+
+    <xacro:property name="M_PI" value="3.14159"/>
+    <xacro:property name="laser_min_range" value="0.1"/>
+    <xacro:property name="laser_max_range" value="200.0"/>
+    <xacro:property name="horizontal_fov" value="38.4"/>
+    <xacro:property name="vertical_fov" value="38.4"/>
+    <xacro:property name="ros_topic" value="scan"/>
+    <xacro:property name="samples" value="10000"/>
+    <xacro:property name="downsample" value="1"/>
+
+    <xacro:macro name="null_inertial">
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.01" ixy="0" ixz="0"
+                     iyy="0.01" iyz="0"
+                     izz="0.01"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="Livox_Mid_gazebo_sensor" params="visualize:=True update_rate:=10 resolution:=0.002 noise_mean:=0.0 noise_stddev:=0.01 name:=livox">
+        <gazebo reference="${name}">
+            <sensor type="ray" name="laser_${name}">
+                <pose>0 0 0 0 0 0</pose>
+                <visualize>${visualize}</visualize>
+                <update_rate>${update_rate}</update_rate>
+                <!-- This ray plgin is only for visualization. -->
+                <plugin name="gazebo_ros_laser_controller" filename="liblivox_laser_simulation.so">
+                    <ray>
+                        <scan>
+                            <horizontal>
+                                <samples>100</samples>
+                                <resolution>1</resolution>
+                                <min_angle>${-horizontal_fov/360*M_PI}</min_angle>
+                                <max_angle>${horizontal_fov/360*M_PI}</max_angle>
+                            </horizontal>
+                            <vertical>
+                                <samples>50</samples>
+                                <resolution>1</resolution>
+                                <min_angle>${-vertical_fov/360*M_PI}</min_angle>
+                                <max_angle>${vertical_fov/360*M_PI}</max_angle>
+                            </vertical>
+                        </scan>
+                        <range>
+                            <min>${laser_min_range}</min>
+                            <max>${laser_max_range}</max>
+                            <resolution>${resolution}</resolution>
+                        </range>
+                        <noise>
+                            <type>gaussian</type>
+                            <mean>${noise_mean}</mean>
+                            <stddev>${noise_stddev}</stddev>
+                        </noise>
+                    </ray>
+                    <visualize>${visualize}</visualize>
+                    <samples>${samples}</samples>
+                    <downsample>${downsample}</downsample>
+                    <csv_file_name>package://livox_laser_simulation/scan_mode/mid40.csv</csv_file_name>
+                    <ros_topic>${ros_topic}</ros_topic>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+
+
+    <xacro:macro name="Livox_Mid40"
+                 params="parent:=base_link name:=livox_lidar ">
+
+        <joint name="${name}_base_joint" type="fixed">
+zz            <parent link="${parent}"/>
+            <child link="${name}_body"/>
+            <origin xyz="0.00 0.00 0.0" rpy="0 0 0"/>
+        </joint>
+
+
+        <link name="${name}_body">
+            <xacro:null_inertial/>
+            <visual>
+                <origin xyz="0.00 0.00 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://livox_laser_simulation/meshes/livox_mid40.dae">
+                    </mesh>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://livox_laser_simulation/meshes/livox_mid40.dae">
+                    </mesh>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${name}_base_joint1" type="fixed">
+            <parent link="${name}_body"/>
+            <child link="${name}_null_inertial"/>
+            <origin xyz="0.00 0.00 0.0" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${name}_null_inertial">
+            <xacro:null_inertial/>
+        </link>
+
+        <xacro:Livox_Mid_gazebo_sensor name="${name}" visualize="True"/>
+    </xacro:macro>
+
+    <xacro:Livox_Mid40 name="livox"/>
+
+</robot>

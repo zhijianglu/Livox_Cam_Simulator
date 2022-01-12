@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="null_inertial">
+    <inertial>
+      <mass value="0.1"/>
+    <inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" ixy="0" ixz="0"
+          iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" iyz="0"
+          izz="${0.5 * 0.83 * (0.0516*0.0516)}"/>
+    </inertial>
+  </xacro:macro>
+
+
+  <xacro:macro name="Livox_Mid_gazebo_sensor" params="visualize:=True update_rate:=10 min_range:=0.0 max_range:=30.0 resolution:=0.002 noise_mean:=0.0 noise_stddev:=0.01 topic_prefix:=livox_lidar/ name:=livox samples:=500 num_double_ellipses:=5 rotation_increment:=0.1">
+    <gazebo reference="${name}">
+      <sensor type="ray" name="laser_${name}">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>${visualize}</visualize>
+        <update_rate>${update_rate}</update_rate>
+        <!-- This ray plgin is only for visualization. -->
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>3</samples>
+              <resolution>1</resolution>
+              <min_angle>0.33</min_angle>
+              <max_angle>-0.33</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>${resolution}</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>${noise_mean}</mean>
+            <stddev>${noise_stddev}</stddev>
+          </noise>
+        </ray>
+        <plugin name="gazebo_ros_laser_controller" filename="libgazebo_laser_livox.so">
+          <visualize>${visualize}</visualize>
+          <frameName>${name}</frameName>
+          <topicName>${topic_prefix}${name}</topicName>
+          <updateRate>${update_rate}</updateRate>
+          <samples>${samples}</samples>
+          <numDoubleEllipses>${num_double_ellipses}</numDoubleEllipses>
+          <minRange>${min_range}</minRange>
+          <maxRange>${max_range}</maxRange>
+          <rotationIncrement>${rotation_increment}</rotationIncrement>
+          <interpolationPoints>10</interpolationPoints>
+          <maxInterpolationDistance>2.0</maxInterpolationDistance>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- ============================================= Livox_Mid40 macro ============================================= -->
+  <xacro:macro name="Livox_Mid40" params="visualize:=True update_rate:=10 min_range:=0.0 max_range:=30.0 resolution:=0.002 noise_mean:=0.0 noise_stddev:=0.01 topic_prefix:=livox_lidar/ name:=livox samples:=500 num_double_ellipses:=5 rotation_increment:=0.1">
+    <link name="${name}_base">
+      <xacro:null_inertial/>
+      <!-- <inertial>
+        <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+        <mass value="0.05"/>
+        <inertia ixx="0.5" ixy="0.0" ixz="0.0" iyy="0.25" iyz="0.0" izz="0.5" />
+      </inertial> -->
+      <visual> 
+        <origin xyz="0.05 0 0.05" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://livox_simulation/meshes/livox_mid40.dae">
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <cylinder length="0.05" radius="0.1" />
+          </geometry>
+      </collision>
+    </link>
+
+    <link name="${name}">
+      <xacro:null_inertial/>
+    </link>
+
+    <joint name="${name}_to_${name}_base_joint" type="fixed">
+      <parent link="${name}_base"/>
+      <child link="${name}"/>
+      <origin rpy="0 0 0" xyz="0.049 0.0 0.0457"/>
+    </joint>
+
+    <xacro:Livox_Mid_gazebo_sensor name="${name}" visualize="${visualize}" min_range="${min_range}" max_range="${max_range}" resolution="${resolution}" samples="${samples}" num_double_ellipses="${num_double_ellipses}" update_rate="${update_rate}" noise_mean="${noise_mean}" noise_stddev="${noise_stddev}" topic_prefix="${topic_prefix}" rotation_increment="${rotation_increment}"/>
+  </xacro:macro>
+
+  <!-- ============================================= Livox_Mid100 macro ============================================= -->
+  <xacro:macro name="Livox_Mid100" params="name">
+
+    <link name="${name}_center_base">
+      <xacro:null_inertial/>
+    </link>
+
+    <link name="${name}_center">
+      <xacro:null_inertial/>
+    </link>
+
+    <joint name="${name}_center_to_${name}_base_joint" type="fixed">
+      <parent link="${name}_center_base"/>
+      <child link="${name}_center"/>
+      <origin rpy="0 0 0" xyz="0.07 0.0 0.0397"/>
+    </joint>
+
+    <link name="${name}_left_base">
+      <xacro:null_inertial/>
+    </link>
+
+    <link name="${name}_left">
+      <xacro:null_inertial/>
+    </link>
+
+    <joint name="${name}_left_to_${name}_base_joint" type="fixed">
+      <parent link="${name}_left_base"/>
+      <child link="${name}_left"/>
+      <origin rpy="0 0 0.5235987756" xyz="0.039405 0.087381 0.0397"/>
+    </joint>
+
+    <link name="${name}_right_base">
+      <xacro:null_inertial/>
+    </link>
+
+    <link name="${name}_right">
+      <xacro:null_inertial/>
+    </link>
+
+    <joint name="${name}_right_to_${name}_base_joint" type="fixed">
+      <parent link="${name}_right_base"/>
+      <child link="${name}_right"/>
+      <origin rpy="0 0 -0.5235987756" xyz="0.039405 -0.087381 0.0397"/>
+    </joint>
+
+    <xacro:Livox_Mid_gazebo_sensor name="${name}_left"/>
+    <xacro:Livox_Mid_gazebo_sensor name="${name}_center"/>
+    <xacro:Livox_Mid_gazebo_sensor name="${name}_right"/>
+  </xacro:macro>
+</robot>

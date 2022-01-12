@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bumblebee_xb3">
+
+    <!-- Properties -->
+    <xacro:property name="baseline" value="0.12" />
+    <xacro:property name="hfov" value="43.0000245" />
+    <xacro:property name="M_PI"     value="3.1415926535897931" />
+
+    <!-- Includes -->
+    <xacro:include filename="$(find sensors_description)/materials/materials.xacro" />
+    <!-- <xacro:include filename="$(find sensors_description)/urdf/camera.gazebo.xacro" /> -->
+
+
+    <!-- Macro -->
+<xacro:macro name="xb3_camera" params="*origin parent:=base_frame camera_name:=bumblebee_xb3 image_width:=1280 image_height:=960 hz:=10 image_format:=B8G8R8 noise:=0.0">
+
+    <!-- Camera body -->
+    <joint name="${camera_name}_base_joint" type="fixed">
+        <parent link="${parent}"/>
+        <child link="${camera_name}_body"/>
+        <xacro:insert_block name="origin" />
+    </joint>
+
+    <link name="${camera_name}_body">
+        <inertial>
+            <origin
+            xyz="0.020768 7.8916E-18 2.5641E-17"
+            rpy="0 0 0" />
+        <mass
+            value="0.20853" />
+        <inertia
+            ixx="0.0013461"
+            ixy="-2.3692E-21"
+            ixz="2.8955E-21"
+            iyy="0.0013522"
+            iyz="-5.06773623737804E-20"
+            izz="5.3883E-05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://sensors_description/meshes/xb3.stl" />
+            </geometry>
+            <material name="brown" />
+            <!-- <material name="black" /> -->
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://sensors_description/meshes/xb3.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <gazebo reference="${camera_name}_body">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <!-- Left Camera -->
+    <joint name="${camera_name}_left_camera_joint" type="fixed">
+        <parent link="${camera_name}_body"/>
+        <child link="${camera_name}_left_frame"/>
+        <origin xyz="0 ${baseline/2} 0" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <link name="${camera_name}_left_frame" />
+
+    <joint name="${camera_name}_left_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-M_PI/2} 0.0 ${-M_PI/2}" />
+      <parent link="${camera_name}_left_frame" />
+      <child link="${camera_name}_left_optical_frame"/>
+    </joint>
+
+    <link name="${camera_name}_left_optical_frame" />
+
+    <!-- <xacro:rgb_gazebo reference="${camera_name}_left_frame" name="left" image_width="${image_width}"
+                      image_height="${image_height}" hz="${hz}" image_format="${image_format}" 
+                      frame_id="${camera_name}_left_optical_frame" hfov="${hfov}" 
+                      focal_length="0" noise="${noise}">
+    </xacro:rgb_gazebo> -->
+
+    <!-- Right Camera -->
+    <joint name="${camera_name}_right_camera_joint" type="fixed">
+        <parent link="${camera_name}_body"/>
+        <child link="${camera_name}_right_frame"/>
+        <origin xyz="0 -${baseline/2} 0" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <link name="${camera_name}_right_frame" />
+
+    <joint name="${camera_name}_right_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-M_PI/2} 0.0 ${-M_PI/2}" />
+      <parent link="${camera_name}_right_frame" />
+      <child link="${camera_name}_right_optical_frame"/>
+    </joint>
+
+    <link name="${camera_name}_right_optical_frame" />
+
+    <!-- <xacro:rgb_gazebo reference="${camera_name}_right_frame" name="right" image_width="${image_width}"
+                      image_height="${image_height}" hz="${hz}" image_format="${image_format}" 
+                      frame_id="${camera_name}_right_optical_frame" hfov="${hfov}" 
+                      focal_length="0" noise="${noise}">
+    </xacro:rgb_gazebo> -->
+
+    <gazebo reference="${camera_name}_left_frame">
+        <sensor type="multicamera" name="${camera_name}">
+            <always_on>true</always_on>
+            <update_rate>${hz}</update_rate>
+            <camera name="left">
+                <horizontal_fov>${hfov*M_PI/180.0}</horizontal_fov>
+                <image>
+                    <format>${image_format}</format>
+                    <width>${image_width}</width>
+                    <height>${image_height}</height>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>${noise}</stddev>
+                </noise>
+            </camera>
+            <camera name="right">
+                <pose>0 -0.12 0 0 0 0</pose>
+                <horizontal_fov>${hfov*M_PI/180.0}</horizontal_fov>
+                <image>
+                    <format>${image_format}</format>
+                    <width>${image_width}</width>
+                    <height>${image_height}</height>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>${noise}</stddev>
+                </noise>
+            </camera>
+            <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+                <updateRate>0.0</updateRate>
+                <cameraName>stereo_camera</cameraName>
+                <imageTopicName>image_rect_color</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>${camera_name}_left_optical_frame</frameName>
+                <!--<rightFrameName>right_camera_optical_frame</rightFrameName>-->
+                <Cx>639.515381</Cx>
+                <Cy>479.500000</Cy>
+                <hackBaseline>0.12</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+        <!-- <turnGravityOff>true</turnGravityOff> -->
+        <!-- <material value="Gazebo/Red" /> -->
+    </gazebo>
+
+
+</xacro:macro>
+</robot>

@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="world_name" default="$(find gazebo_world)/worlds/our2.world"/>
+    <include file="$(find gazebo_world)/launch/board_world.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+    </include>
+
+    <arg name="robot_urdf" default="$(find sensors_description)/urdf/horizon_zed2.urdf.xacro"/>
+
+    <!-- velodyne:  vlp16 hdl32 hdl64 -->
+    <!-- noise factor: 0 1 2 -->
+    <arg name="velodyne" default="vlp16"/>
+    <arg name="K" default="0"/>
+
+    <arg name="rate" default="5"/>
+    <arg name="velodyne_x" default="0.0"/>
+    <arg name="velodyne_y" default="0.0"/>
+    <arg name="velodyne_z" default="0.0"/>
+    <arg name="velodyne_roll" default="0.0"/>
+    <arg name="velodyne_pitch" default="0.0"/>
+    <arg name="velodyne_yaw" default="0.0"/>
+
+    <arg name="zed2_x" default="0.04"/>
+    <arg name="zed2_y" default="0.08"/>
+    <arg name="zed2_z" default="-0.061"/>
+
+    <arg name="zed2_roll" default="0.015"/>
+    <arg name="zed2_pitch" default="0.032"/>
+    <arg name="zed2_yaw" default="0.061"/>
+
+
+    <param name="robot_description"
+           command="$(find xacro)/xacro '$(arg robot_urdf)' velodyne:=$(arg velodyne) K:=$(arg K) rate:=$(arg rate) zed2_x:=$(arg zed2_x) zed2_y:=$(arg zed2_y) zed2_z:=$(arg zed2_z) zed2_roll:=$(arg zed2_roll) zed2_pitch:=$(arg zed2_pitch) zed2_yaw:=$(arg zed2_yaw) velodyne_x:=$(arg velodyne_x) velodyne_y:=$(arg velodyne_y) velodyne_z:=$(arg velodyne_z) velodyne_roll:=$(arg velodyne_roll) velodyne_pitch:=$(arg velodyne_pitch) velodyne_yaw:=$(arg velodyne_yaw)"/>
+
+    <!--    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"-->
+    <!--          args="-urdf -model crank_lidar -param robot_description"/>-->
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="15.0" />
+    </node>
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -model crank_lidar -param robot_description"/>
+    <!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find livox_laser_simulation)/rviz/livox_simulation.rviz"/>-->
+    <arg name="rviz" default="true"/>
+    <node if="$(arg rviz)" pkg="rviz" type="rviz" name="$(anon rviz)" respawn="false" output="screen"
+          args="-d $(find gazebo_world)/rviz/velodyne_zed2.rviz"/>
+
+
+
+    <!--    velodyne -->
+<!--        <node name="spawn_urdf1" pkg="gazebo_ros" type="spawn_model_velodyne" args="-urdf -model crank_lidar -param robot_description" />-->
+    <!--        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">-->
+    <!--        <param name="publish_frequency" type="double" value="15.0" />-->
+    <!--    </node>-->
+    <!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find livox_laser_simulation)/rviz/livox_simulation.rviz"/>-->
+
+</launch>

@@ -1,0 +1,1098 @@
+<sdf version='1.6'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose frame=''>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='asphalt_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>20 20 0.1</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <box>
+              <size>20 20 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://asphalt_plane/materials/scripts</uri>
+              <uri>model://asphalt_plane/materials/textures</uri>
+              <name>vrc/asphalt</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>-1.1556 -2.37413 0 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>1202 516000000</sim_time>
+      <real_time>279 792545289</real_time>
+      <wall_time>1634193733 257380516</wall_time>
+      <iterations>236322</iterations>
+      <model name='House 1'>
+        <pose frame=''>18.3058 1.52085 0 0 0 -1.28532</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>18.3058 1.52085 0 0 0 -1.28532</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='asphalt_plane'>
+        <pose frame=''>11.0728 1.08226 -0.05 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>11.0728 1.08226 -0.05 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='crank_lidar'>
+        <pose frame=''>0 0 1 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose frame=''>0 0 1 0 -0 0</pose>
+          <velocity>-0.926176 -0.397317 -9.31973 -3.12098 0.757662 2.67181</velocity>
+          <acceleration>-3191.72 -1620.35 -7384.36 2.53871 0.88015 3.02855</acceleration>
+          <wrench>-4569.9 -2320.02 -10572.9 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='landmark'>
+        <pose frame=''>5 0 1.5 1.57079 -0 1.57079</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose frame=''>5 0 1.5 1.57079 -0 1.57079</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose frame=''>0 0 10 0 -1.3 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>4.60523 2.81668 19.4037 0 1.5018 3.13454</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    <audio>
+      <device>default</device>
+    </audio>
+    <model name='crank_lidar'>
+      <link name='base_link'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0.051277 0.056769 0.051619 0 -0 0</pose>
+          <mass>1.4318</mass>
+          <inertia>
+            <ixx>0.0243381</ixx>
+            <ixy>-0.000676697</ixy>
+            <ixz>-0.000615322</ixz>
+            <iyy>0.0242272</iyy>
+            <iyz>-0.000681228</iyz>
+            <izz>0.0215536</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/lab/Calibrate/GazeboSim/velodyne_camera_simulator_ws2/src/velodyne_camera_simulator/livox_laser_simulation/meshes/livox_mid40.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='base_link_fixed_joint_lump__zed2_body_collision_1'>
+          <pose frame=''>0.06 0.066 0.06 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/lab/Calibrate/GazeboSim/velodyne_camera_simulator_ws2/src/velodyne_camera_simulator/sensors_description/meshes/zed2.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='base_link_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/lab/Calibrate/GazeboSim/velodyne_camera_simulator_ws2/src/velodyne_camera_simulator/livox_laser_simulation/meshes/livox_mid40.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='base_link_fixed_joint_lump__zed2_body_visual_1'>
+          <pose frame=''>0.06 0.066 0.06 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/lab/Calibrate/GazeboSim/velodyne_camera_simulator_ws2/src/velodyne_camera_simulator/sensors_description/meshes/zed2.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <velocity_decay/>
+        <sensor name='laser_livox' type='ray'>
+          <visualize>1</visualize>
+          <update_rate>10</update_rate>
+          <plugin name='gazebo_ros_laser_controller' filename='liblivox_laser_simulation.so'>
+            <ray>
+              <scan>
+                <horizontal>
+                  <samples>100</samples>
+                  <resolution>1</resolution>
+                  <min_angle>-0.335103216383</min_angle>
+                  <max_angle>0.335103216383</max_angle>
+                </horizontal>
+                <vertical>
+                  <samples>50</samples>
+                  <resolution>1</resolution>
+                  <min_angle>-0.335103216383</min_angle>
+                  <max_angle>0.335103216383</max_angle>
+                </vertical>
+              </scan>
+              <range>
+                <min>0.1</min>
+                <max>200.0</max>
+                <resolution>0.002</resolution>
+              </range>
+              <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+              </noise>
+            </ray>
+            <visualize>1</visualize>
+            <samples>10000</samples>
+            <downsample>1</downsample>
+            <csv_file_name>/home/lab/Calibrate/GazeboSim/velodyne_camera_simulator_ws2/src/velodyne_camera_simulator/livox_laser_simulation/scan_mode/mid40.csv</csv_file_name>
+            <ros_topic>scan</ros_topic>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>640</samples>
+                <resolution>1</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>1</samples>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0</min>
+              <max>0</max>
+            </range>
+          </ray>
+        </sensor>
+        <velocity_decay/>
+        <velocity_decay/>
+        <sensor name='left_camera' type='camera'>
+          <always_on>1</always_on>
+          <update_rate>15</update_rate>
+          <camera name='__default__'>
+            <horizontal_fov>1.61146</horizontal_fov>
+            <image>
+              <format>B8G8R8</format>
+              <width>2208</width>
+              <height>1242</height>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </camera>
+          <plugin name='zed2_left_frame_controller' filename='libgazebo_ros_camera.so'>
+            <updateRate>15</updateRate>
+            <cameraName>left_camera</cameraName>
+            <frameName>zed2_left_optical_frame</frameName>
+            <CxPrime>1104.5</CxPrime>
+            <Cx>1103.514893</Cx>
+            <Cy>620.500122</Cy>
+            <focalLength>0</focalLength>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose frame=''>0.06 0.126 0.06 0 -0 0</pose>
+        </sensor>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <sensor name='right_camera' type='camera'>
+          <always_on>1</always_on>
+          <update_rate>15</update_rate>
+          <camera name='__default__'>
+            <horizontal_fov>1.61146</horizontal_fov>
+            <image>
+              <format>B8G8R8</format>
+              <width>2208</width>
+              <height>1242</height>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </camera>
+          <plugin name='zed2_right_frame_controller' filename='libgazebo_ros_camera.so'>
+            <updateRate>15</updateRate>
+            <cameraName>right_camera</cameraName>
+            <frameName>zed2_right_optical_frame</frameName>
+            <CxPrime>1104.5</CxPrime>
+            <Cx>1103.514893</Cx>
+            <Cy>620.500122</Cy>
+            <focalLength>0</focalLength>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose frame=''>0.06 0.006 0.06 0 -0 0</pose>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='fixed' type='fixed'>
+        <child>base_link</child>
+        <parent>world</parent>
+      </joint>
+      <pose frame=''>0 0 0 0 -0 0</pose>
+    </model>
+    <model name='House 1'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://house_1/meshes/house_1.dae</uri>
+              <scale>1.5 1.5 1.5</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://house_1/meshes/house_1.dae</uri>
+              <scale>1.5 1.5 1.5</scale>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://house_1/materials/scripts</uri>
+              <uri>model://house_1/materials/textures</uri>
+              <name>House_1/Diffuse</name>
+            </script>
+            <shader type='normal_map_tangent_space'>
+              <normal_map>House_1_Normal.png</normal_map>
+            </shader>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>18.3058 1.52085 0 0 -0 0</pose>
+    </model>
+    <model name='landmark'>
+      <static>1</static>
+      <link name='base_link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>1 0.7 0.02</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='back'>
+          <pose frame=''>0 0 0.03 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.7 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <specular>0.5 0.5 0.5 1</specular>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+        <inertial>
+          <mass>0.1</mass>
+        </inertial>
+        <visual name='border0'>
+          <pose frame=''>0.45 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.7 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='border1'>
+          <pose frame=''>-0.45 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.7 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='border2'>
+          <pose frame=''>0 0.3 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='border3'>
+          <pose frame=''>0 -0.3 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='74'>
+          <pose frame=''>0.35 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='73'>
+          <pose frame=''>0.35 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='72'>
+          <pose frame=''>0.35 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='71'>
+          <pose frame=''>0.35 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='70'>
+          <pose frame=''>0.35 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='64'>
+          <pose frame=''>0.25 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='63'>
+          <pose frame=''>0.25 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='62'>
+          <pose frame=''>0.25 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='61'>
+          <pose frame=''>0.25 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='60'>
+          <pose frame=''>0.25 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='54'>
+          <pose frame=''>0.15 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='53'>
+          <pose frame=''>0.15 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='52'>
+          <pose frame=''>0.15 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='51'>
+          <pose frame=''>0.15 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='50'>
+          <pose frame=''>0.15 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='44'>
+          <pose frame=''>0.05 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='43'>
+          <pose frame=''>0.05 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='42'>
+          <pose frame=''>0.05 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='41'>
+          <pose frame=''>0.05 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='40'>
+          <pose frame=''>0.05 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='34'>
+          <pose frame=''>-0.05 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='33'>
+          <pose frame=''>-0.05 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='32'>
+          <pose frame=''>-0.05 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='31'>
+          <pose frame=''>-0.05 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='30'>
+          <pose frame=''>-0.05 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='24'>
+          <pose frame=''>-0.15 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='23'>
+          <pose frame=''>-0.15 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='22'>
+          <pose frame=''>-0.15 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='21'>
+          <pose frame=''>-0.15 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='20'>
+          <pose frame=''>-0.15 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='14'>
+          <pose frame=''>-0.25 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='13'>
+          <pose frame=''>-0.25 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='12'>
+          <pose frame=''>-0.25 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='11'>
+          <pose frame=''>-0.25 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='10'>
+          <pose frame=''>-0.25 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='04'>
+          <pose frame=''>-0.35 0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='03'>
+          <pose frame=''>-0.35 0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='02'>
+          <pose frame=''>-0.35 0 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name='01'>
+          <pose frame=''>-0.35 -0.1 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 0 1</ambient>
+            <specular>0 0 0 1</specular>
+            <diffuse>0 0 0 1</diffuse>
+          </material>
+        </visual>
+        <visual name='00'>
+          <pose frame=''>-0.35 -0.2 0.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <specular>1 1 1 1</specular>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>4.535 1.64414 0 0 -0 0</pose>
+    </model>
+  </world>
+</sdf>
