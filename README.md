@@ -1,7 +1,7 @@
 # Livox-LiDAR-Camera System Simulator
 A package to provide plug-in for [Livox Series LiDAR](https://www.livoxtech.com). This work is inherited from  [EpsAvlc](https://github.com/EpsAvlc) and LvFengchi's work: [livox_laser_simulation](https://github.com/lvfengchi/livox_laser_simulation.), we would like to thank for their contributions. 
 
-In this repository, we aim to build a tool that can simulate the data acquisition process of a multi-sensor (LiDAR-camera) system.
+In this repository, we aim to build a tool that can simulate the data acquisition process of a multi-sensor (LiDAR-stereo-camera-imu) system.
 
 ## Requirements
 - ROS(=Kinectic/Melodic)
